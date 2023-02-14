@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head_content %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='register.css') }}">
+{% endblock %}
+
+{% block content_body %}
+    <form method="POST">
+        <label>
+            <span>Username: </span> <input type="text" name="username"><br>
+        </label>
+
+        <label>
+            <span>Email: </span> <input type="text" name="email"><br>
+        </label>
+
+        <label>
+            <span>Confirm email:</span> <input type="text" name="confirm_email"><br>
+        </label>
+
+        <label>
+            <span>Password: </span> <input type="password" name="password"><br>
+        </label>
+
+        <label>
+            <span>Confirm password: </span> <input type="password" name="confirm_password"><br>
+        </label>
+
+        <label>
+            <input type="submit" value="Register">
+        </label>
+    </form>
+
+    <p class="show-error">{{ message }}</p>
+
+{% endblock %}
