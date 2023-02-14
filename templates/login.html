@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head_content %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block content_body %}
+    <form method="post">
+    <label>
+        <span> Email: </span> <input type="text" name="email"/><br>
+    </label>
+
+    <label>
+        <span>Password:</span> <input type="password" name="password">
+    </label>
+
+    <label>
+        <input type="submit" value="Log in">
+    </label>
+    </form>
+
+    <p>{{ message }}</p>
+
+{% endblock %}
+
+
