@@ -1,0 +1,21 @@
+.content_body {
+    padding-top: 10px;
+}
+
+.content_body input {
+    display: table-cell;
+}
+
+.content_body span {
+    display: table-cell;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+
+.content_body label {
+    display: table-row;
+}
+
+.show-error {
+    padding-left: 10px;
+}

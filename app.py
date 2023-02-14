@@ -1,15 +1,36 @@
 from flask import Flask, render_template, url_for, request
 
+from business.connect_service import ConnectService
 from domain.user import User
 from infrastructure.repository import Repository
 
 app = Flask(__name__)
 repo = Repository()
+connect_service = ConnectService(repo)
 
 
 @app.route('/')
 def home():
-    return render_template("base.html")
+    return render_template("home.html")
+
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        user_name = request.form['username']
+        email = request.form['email']
+        confirm_email = request.form['confirm_email']
+        password = request.form['password']
+        confirm_pass = request.form['confirm_password']
+
+        try:
+            connect_service.register_user(user_name, email, confirm_email, password, confirm_pass)
+            return render_template('register.html', message='Register successfully!')
+        except Exception as e:
+            return render_template('register.html', message=str(e))
+
+
+    return render_template('register.html', message='')
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -17,29 +38,13 @@ def login():
     if request.method == 'POST':
         user_email = request.form['email']
         user_password = request.form['password']
-        user = User(user_email, user_password)
 
-        login_result = check_for_login(user)
+        login_status, login_message = connect_service.check_for_login(user_email, user_password)
 
-        if login_result is True:
-            return render_template('login.html', message='Login success!')
-
-        else:
-            return render_template('login.html', message=login_result)
+        return render_template('login.html', message=login_message)
 
     return render_template('login.html')
 
 
-def check_for_login(user):
-    result = repo.find_by_email(user.email)
-    if len(result) == 0:
-        return 'Email not found!'
-
-    if result[0][2] != user.password:
-        return 'Password is incorrect!'
-
-    return True
-
-
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)
+    app.run(host="0.0.0.0", port=5000)

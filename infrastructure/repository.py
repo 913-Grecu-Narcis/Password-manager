@@ -19,7 +19,7 @@ class Repository:
         if len(self.find_by_email(user.email)):
             raise RepoException('User already in database!')
 
-        query = f'insert into Users values(null, "{user.email}", "{user.password}")'
+        query = f'insert into Users values(null, "{user.username}", "{user.email}", "{user.password}")'
         cursor.execute(query)
         db_con.commit()
 
@@ -33,5 +33,6 @@ class Repository:
         cursor.execute(query)
 
         result = cursor.fetchall()
+        db_con.close()
 
         return result
