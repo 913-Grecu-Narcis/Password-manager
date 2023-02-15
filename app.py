@@ -1,50 +1,36 @@
-from flask import Flask, render_template, url_for, request
+import json
 
-from business.connect_service import ConnectService
-from domain.user import User
-from infrastructure.repository import Repository
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
-app = Flask(__name__)
-repo = Repository()
-connect_service = ConnectService(repo)
+from .models.user import db
 
 
-@app.route('/')
-def home():
-    return render_template("home.html")
+def create_app():
+    app = Flask(__name__)
+    app.config.from_pyfile('config.py')
+    db.init_app(app)
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+
+    from .models.user import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(user_id)
+
+    from .home import home_bp
+    from .auth import auth_bp
+    from .profile import profile_bp
+
+    app.register_blueprint(home_bp)
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(profile_bp)
+
+    return app
 
 
-@app.route('/register', methods=['POST', 'GET'])
-def register():
-    if request.method == 'POST':
-        user_name = request.form['username']
-        email = request.form['email']
-        confirm_email = request.form['confirm_email']
-        password = request.form['password']
-        confirm_pass = request.form['confirm_password']
-
-        try:
-            connect_service.register_user(user_name, email, confirm_email, password, confirm_pass)
-            return render_template('register.html', message='Register successfully!')
-        except Exception as e:
-            return render_template('register.html', message=str(e))
-
-
-    return render_template('register.html', message='')
-
-
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    if request.method == 'POST':
-        user_email = request.form['email']
-        user_password = request.form['password']
-
-        login_status, login_message = connect_service.check_for_login(user_email, user_password)
-
-        return render_template('login.html', message=login_message)
-
-    return render_template('login.html')
-
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+app = create_app()
