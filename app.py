@@ -19,9 +19,9 @@ def create_app():
     def load_user(user_id):
         return User.query.get(user_id)
 
-    from .home import home_bp
-    from .auth import auth_bp
-    from .profile import profile_bp
+    from home import home_bp
+    from auth import auth_bp
+    from profile import profile_bp
 
     app.register_blueprint(home_bp)
     app.register_blueprint(auth_bp)

@@ -43,7 +43,7 @@ def signup_post():
         return render_template('register.html', message=message)
 
     user = User.query.filter_by(email=email).first()
-    print(user)
+
     if user:
         return render_template('register.html', message='There exists an account with this email!')
 
@@ -73,6 +73,7 @@ def login_post():
     login_user(user)
 
     return redirect(url_for('profile.profile'))
+
 
 @auth_bp.route('/logout')
 @login_required

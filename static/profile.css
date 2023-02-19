@@ -48,4 +48,19 @@ body {
 
 .display table, th, td {
     border: 1px solid;
+    padding: 5px;
+}
+
+.display td {
+    text-align: center;
+    vertical-align: center;
+}
+
+.display table {
+    border-collapse: collapse;
+}
+
+.display {
+    padding-top: 10px;
+    padding-left: 10px;
 }
