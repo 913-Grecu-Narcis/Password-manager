@@ -1,10 +1,7 @@
-import json
-
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
-from .models.user import db
+from models import db
 
 
 def create_app():
@@ -16,7 +13,7 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    from .models.user import User
+    from models import User
 
     @login_manager.user_loader
     def load_user(user_id):

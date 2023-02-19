@@ -26,3 +26,26 @@ body {
 .header form {
     padding-right: 14px;
 }
+
+.password-adder {
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.password-adder input {
+  display: table-cell;
+}
+
+.password-adder span {
+  display: table-cell;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.password-adder label {
+  display: table-row;
+}
+
+.display table, th, td {
+    border: 1px solid;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='profile.css') }}">
+    <link rel="shortcut icon" href=" {{ url_for('static', filename='favicon/favicon.ico') }}">
+    <title>AllPass</title>
+</head>
+<body>
+    <div class="header">
+        <span>Hello {{ user_name }}!</span>
+        <form action="{{ url_for('auth.logout') }}" >
+            <input type="submit" value="Log out">
+        </form>
+    </div>
+
+    <div class="password-adder">
+        <form method="POST">
+            <label>
+                <span>Website: </span><input type="text" name="website" /> <br>
+            </label>
+
+            <label>
+                <span>Password: </span><input type="password" name="password" /> <br>
+            </label>
+
+            <label>
+                <input type="submit" value="Save password">
+            </label>
+        </form>
+    </div>
+
+    <div class="display">
+        <table>
+            <tr>
+                <th>Website</th>
+                <th>Password</th>
+            </tr>
+            {% for entry in entries %}
+            <tr>
+                <td>{{ entry.website }}</td>
+                <td>{{ entry.password }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</body>
+</html>

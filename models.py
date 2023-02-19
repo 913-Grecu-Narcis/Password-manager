@@ -17,3 +17,18 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.name
+
+
+class Password(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    website = db.Column(db.String(100))
+    password = db.Column(db.String(2048))
+    user_id = db.Column(db.Integer)
+
+    def __init__(self, website, password, user_id):
+        self.website = website
+        self.password = password
+        self.user_id = user_id
+
+    def __repr__(self):
+        return '<Password for %r>' % self.website
