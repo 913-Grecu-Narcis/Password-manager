@@ -68,6 +68,7 @@ def login_post():
     user = User.query.filter_by(email=user_email).first()
 
     if not user or not check_password_hash(user.password, user_password):
+        flash('Username or password are not correct!')
         return redirect(url_for('auth.login'))
 
     login_user(user)
